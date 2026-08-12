@@ -15,4 +15,4 @@ the project is licensed under [MIT](license).
 to run it you need:
 [python 3.11](https://www.python.org/),
 [python-mpv](https://github.com/jaseg/python-mpv),
-[textual](https://github.com/Textualize/textual).
+and [textual](https://github.com/Textualize/textual).
