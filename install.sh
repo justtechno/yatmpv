@@ -7,5 +7,4 @@ fi
 
 chmod +x ./yatmpv.py
 mv ./yatmpv.py /usr/local/bin/
-mv ./yatmpv.css /usr/local/bin
 echo "player succesfully installed!"
