@@ -12,7 +12,6 @@ from textual.containers import VerticalScroll
 
 class LeaveConfirm(Screen):
     """a screen to confirm leave"""
-    CSS_PATH = "yatmpv.tcss"
 
     def compose(self) -> ComposeResult:
         yield Label("Are you sure want to leave?")
@@ -28,7 +27,21 @@ class LeaveConfirm(Screen):
         self.dismiss()
 
 class PlayerApp(App[None]):
-    CSS_PATH = "style.tcss"
+    CSS = """Screen {
+    layout: vertical;
+    padding: 2;
+    }
+
+    Label {
+    width: 100%;
+		content-align: center bottom;
+    text-style: bold;
+    }
+
+    Button {
+    width: 100%;
+		margin: 1 2;
+    }"""
     BINDINGS = [ 
         Binding("down", "focus_next"), 
         Binding("up", "focus_previous"),
