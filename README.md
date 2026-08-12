@@ -7,8 +7,7 @@ there aren't any unusual features like playlists, it is probably not usable play
 
 to install just run folowing commands macOS and linux(on windows there aren't automated installer, sorry).
 
-```chmod +x ./install.sh```
-```./install.sh```
+```chmod +x ./install.sh``` and ```./install.sh```
 
 ## notes
 
