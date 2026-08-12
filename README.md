@@ -9,9 +9,7 @@ it is my first project so it isn't something professional.
 
 ## installation
 
-to install just run folowing commands macOS and linux(on windows there aren't automated installer, sorry).
-
-```chmod +x ./install.sh``` and ```./install.sh``` ( there aren't automated depende=ency installing, sorry. but you can see requirments and install dependencies manually )
+see [releases](https://github.com/justtechno/yatmpv/releases) and install version for your OS(there arent release for mac because i haven't macOS device)
 
 ## Requirments
 
