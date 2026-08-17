@@ -9,7 +9,7 @@ A minimal TUI media player based on [python-mpv](https://github.com/jaseg/python
 there aren't any unusual features like playlists, it is probably not usable player for everyday but actually you can use it, if you want to. it is my first project so itis not something professional or unusual. just a TUI player.
 
 ## feedback & contributing
-Just write feedback to [issues]() if it is a problem or feature request or [discussions]() if it is a discussion or another kind of feedback
+Just write feedback to [issues](https://github.com/justtechno/yatmpv/issues) if it is a problem or feature request or [discussions]() if it is a discussion or another kind of feedback
 
 ## installation
 
