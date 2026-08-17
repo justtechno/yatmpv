@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import platform
+import sys
 import mpv
 from asyncio.tasks import current_task
 from textual import on, events, binding
@@ -20,26 +21,26 @@ class LeaveConfirm(Screen):
     
     @on(Button.Pressed, "#leave_confirm")
     def leave(self) -> None: 
-        self.app.exit()
+        self.app.exit() #exits app after pressing "yes" button
 
     @on(Button.Pressed, "#leave_cancel")
     def leave_cancel(self) -> None: 
-        self.dismiss()
+        self.dismiss() #hides screen after pressing "no" button
 
 class PlayerApp(App[None]):
     CSS = """Screen {
-    layout: vertical;
-    padding: 2;
+        layout: vertical;
+        padding: 2;
     }
 
     Label {
-    width: 100%;
+        width: 100%;
 		content-align: center bottom;
-    text-style: bold;
+        text-style: bold;
     }
 
     Button {
-    width: 100%;
+        width: 100%;
 		margin: 1 2;
     }"""
     BINDINGS = [ 
@@ -48,21 +49,31 @@ class PlayerApp(App[None]):
         Binding("left", "seek_forward"),
         Binding("right", "seek_backward"),
         Binding("space", "pause_play"),
-        Binding("ctrl+q", "push_screen('Leave')")
+        Binding("ctrl+q", "push_screen('Leave')"),
     ]
     
     playing = False
     
     def action_seek_forward(self) -> None:
-        current_time = self.player.time_pos or 0
-        self.player.time_pos = current_time + 5
+        """fast-forwarding track"""
+        current_time = self.player.time_pos or 0 # current time of track to fast-forward it
+        self.player.time_pos = current_time + 5 # fast-forwarding track
 
     def action_seek_backward(self) -> None:
-        current_time = self.player.time_pos or 0
-        self.player.time_pos = current_time - 5
+        """rewinds track"""
+        current_time = self.player.time_pos or 0 # current time of track to rewind it
+        self.player.time_pos = current_time - 5 # rewinds track
 
-    def on_mount(self) -> None: 
-        self.player = mpv.MPV(ytdl=True, loop_file='inf') 
+    def on_mount(self) -> None:
+        arg = sys.argv[1] if len(sys.argv) > 1 else "default"
+        if arg == "Default":
+            self.player = mpv.MPV(loop_file='inf', config=True) # instantiates player object with enabled loop_file option
+        elif arg == "Nonloop":
+            self.player = mpv.MPV(loop_file='no', config=True) # instantiates player object with disabled loop_file option
+        elif arg == "Nonconf":
+            self.player = mpv.MPV(loop_file='inf', config=False) # instantiates player object with disabled config
+        elif arg == "Noopt":
+            self.player = mpv.MPV() # instanties player object without any options
         self.install_screen(LeaveConfirm(), name="Leave")
 
     def compose(self) -> ComposeResult:
@@ -73,17 +84,18 @@ class PlayerApp(App[None]):
             for filename in os.listdir("."):
                 yield Button(filename)
         yield Footer()
+
    
     def on_input_changed(self, event: Input.Changed) -> None:
         """filters tracks by input"""
-        search_text = event.value.lower()
-        all_buttons = self.query(Button)
+        search_text = event.value.lower() # saves input to search case-insensitive
+        all_buttons = self.query(Button) 
         for button in all_buttons:
             button_text = str(button.label).lower()
             if search_text in button_text:
-                button.styles.display = "block"
+                button.styles.display = "block" # Keeps button visible if it's label matches woth query
             else:
-                button.styles.display = "none"
+                button.styles.display = "none" # Hides button if it's label doesn't match the query 
 
     def update_nowplaying(self, track_name: str) -> None:
         """update 'now_playing' label"""
@@ -96,11 +108,11 @@ class PlayerApp(App[None]):
         if self.playing and getattr(self, 'track', None) == track_name:
             self.playing = False
             self.player.stop()
-            self.update_nowplaying("None")
+            self.update_nowplaying("None") # sets the "now_playing" label to "None" when player stoped
         else:
             self.playing = True
             self.player.play(track_name)
-            self.update_nowplaying(track_name)
+            self.update_nowplaying(track_name) # sets "now_playing" label to track name
 
     def action_pause_play(self) -> None:
         """toggle pause"""
@@ -110,20 +122,18 @@ class PlayerApp(App[None]):
     def on_unmount(self) -> None:
         """terminates player after unmount"""
         if hasattr(self, 'player'):
-            self.player.terminate()
+            self.player.terminate() 
 
 if __name__ == "__main__":
-    osname = platform.system()
-    if osname == "Linux":
+    osname = platform.system() # detects OS to get music directory
+    if osname == "Linux": # gets music directory on linux
         home = os.environ["HOME"]
         music_dir = os.path.join(home, "Music")
-        os.chdir(music_dir)
-    elif osname == "Windows":
-        user_profile = os.environ["USERPROFILE"]
-        music_dir = os.path.join(user_profile, "Music")
-        os.chdir(music_dir)
-    elif osname == "Darwin":
+    elif osname == "Windows": # gets music directory on windows
+        user_profile = os.environ["USERPROFILE"] 
+        music_dir = os.path.join(user_profile, "Music") 
+    elif osname == "Darwin": # gets music directory on MacOS
         home = os.environ["HOME"]
         music_dir = os.path.join(home, "Music")
-        os.chdir(music_dir)
+    os.chdir(music_dir) # moves to music directory
     PlayerApp().run()

@@ -1,11 +1,15 @@
-## yatmpv(yet another TUI for mpv)
+# yet another TUI for MPV(yatmpv)
 
+## Languages
+The README.md is available on following languages:
+[english(current)](README.md), [русский](README_RU.md)
+
+## main info
 A minimal TUI media player based on [python-mpv](https://github.com/jaseg/python-mpv) and [textual](https://github.com/Textualize/textual) libraries.
-there aren't any unusual features like playlists, it is probably not usable player for everyday but actually you can use it, if you want to.
+there aren't any unusual features like playlists, it is probably not usable player for everyday but actually you can use it, if you want to. it is my first project so itis not something professional or unusual. just a TUI player.
 
-## notes
-
-it is my first project so it isn't something professional.
+## feedback & contributing
+Just write feedback to [issues]() if it is a problem or feature request or [discussions]() if it is a discussion or another kind of feedback
 
 ## installation
 
@@ -18,9 +22,10 @@ to run it you need:
 [python-mpv](https://github.com/jaseg/python-mpv),
 and [textual](https://github.com/Textualize/textual).
 
+# Running
+
+just execute a file, it also supports a flags like `Nonconf`(ignores a mpv config) and `Nonloop`(disables loop_file option)
 
 ## LICENSE
 
 the project is licensed under [MIT](license).
-
-
